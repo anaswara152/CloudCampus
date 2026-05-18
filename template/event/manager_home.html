@@ -1,0 +1,132 @@
+<!DOCTYPE HTML>
+{% load static %}
+<html>
+<head>
+    <title>Manager Dashboard - Cloud Campus</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{% static 'Broadcast-1.0.0/assets/css/main.css' %}">
+</head>
+<body>
+
+<!-- Header -->
+<header id="header">
+    <h1><a href="{% url 'manager_home' %}">CLOUDCAMPUS</a></h1>
+    <a href="#menu">Menu</a>
+</header>
+
+<!-- Nav -->
+<nav id="menu">
+    <ul class="links">
+        <li><a href="{% url 'manager_home' %}">Home</a></li>
+        <li><a href="{% url 'create_event' %}">Create Event</a></li>
+        <li><a href="{% url 'view_events_for_manager' %}">View Events</a></li>
+        <li><a href="{% url 'view_event_participants' %}">Participants Requests</a></li>
+        <li><a href="{% url 'view_programmes' %}">Programmes</a></li>
+        <li><a href="{% url 'logoutuser' %}">Logout</a></li>
+    </ul>
+</nav>
+
+<!-- Banner Section -->
+
+
+<!-- Main -->
+<div id="main">
+
+<section class="wrapper style2">
+    <div class="inner">
+
+        <!-- Section Header -->
+        <header class="align-center">
+            <h2>Event Management Panel</h2>
+            <p>Quick Access Controls</p>
+        </header>
+
+        <!-- First Row -->
+        <div class="flex flex-2">
+
+            <!-- Create Event -->
+            <div class="video col">
+                <div class="image fit">
+                    <img src="{% static 'Broadcast-1.0.0/images/pic01.jpg' %}" alt="">
+                </div>
+                <p class="caption">
+                    <strong>Create New Event</strong><br>
+                    Add and schedule new campus events easily.
+                </p>
+                <a href="{% url 'create_event' %}" class="link">
+                    <span>Open</span>
+                </a>
+            </div>
+
+            <!-- View Events -->
+            <div class="video col">
+                <div class="image fit">
+                    <img src="{% static 'Broadcast-1.0.0/images/pic02.jpg' %}" alt="">
+                </div>
+                <p class="caption">
+                    <strong>View & Manage Events</strong><br>
+                    Edit or update existing events.
+                </p>
+                <a href="{% url 'view_events_for_manager' %}" class="link">
+                    <span>Open</span>
+                </a>
+            </div>
+
+        </div>
+
+        <!-- Second Row -->
+        <div class="flex flex-2">
+
+            <!-- Participants -->
+            <div class="video col">
+                <div class="image fit">
+                    <img src="{% static 'Broadcast-1.0.0/images/pic03.jpg' %}" alt="">
+                </div>
+                <p class="caption">
+                    <strong>Participants Requests</strong><br>
+                    Approve or reject student applications.
+                </p>
+                <a href="{% url 'view_event_participants' %}" class="link">
+                    <span>Open</span>
+                </a>
+            </div>
+
+            <!-- Programmes -->
+            <div class="video col">
+                <div class="image fit">
+                    <img src="{% static 'Broadcast-1.0.0/images/pic04.jpg' %}" alt="">
+                </div>
+                <p class="caption">
+                    <strong>Manage Programmes</strong><br>
+                    Organize and update programme details.
+                </p>
+                <a href="{% url 'view_programmes' %}" class="link">
+                    <span>Open</span>
+                </a>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+</div>
+
+<!-- Footer -->
+<footer id="footer">
+    <div class="inner">
+        <p style="text-align:center;">
+            © {% now "Y" %} Cloud Campus | Event Manager Panel
+        </p>
+    </div>
+</footer>
+
+<!-- Scripts -->
+<script src="{% static 'Broadcast-1.0.0/assets/js/jquery.min.js' %}"></script>
+<script src="{% static 'Broadcast-1.0.0/assets/js/jquery.scrolly.min.js' %}"></script>
+<script src="{% static 'Broadcast-1.0.0/assets/js/skel.min.js' %}"></script>
+<script src="{% static 'Broadcast-1.0.0/assets/js/util.js' %}"></script>
+<script src="{% static 'Broadcast-1.0.0/assets/js/main.js' %}"></script>
+
+</body>
+</html>

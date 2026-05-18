@@ -1,0 +1,60 @@
+{% extends 'event/base.html' %}
+{% block content %}
+
+<div class="container mt-5">
+    <h2>Edit Programme</h2>
+    <h5 class="text-muted mb-4">Update programme details</h5>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <div class="mb-3">
+            <label>Programme Name</label>
+            <input type="text" name="name" class="form-control"
+                   value="{{ programme.name }}" required>
+        </div>
+
+        <div class="mb-3">
+            <label>Programme Type</label>
+            <select name="programme_type" class="form-control" required>
+                <option value="Solo" {% if programme.programme_type == "Solo" %}selected{% endif %}>Solo</option>
+                <option value="Group" {% if programme.programme_type == "Group" %}selected{% endif %}>Group</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label>Minimum Members</label>
+            <input type="number" name="min_members" class="form-control"
+                   value="{{ programme.min_members }}" required>
+        </div>
+
+        <div class="mb-3">
+            <label>Maximum Members</label>
+            <input type="number" name="max_members" class="form-control"
+                   value="{{ programme.max_members }}" required>
+        </div>
+
+        <div class="mb-3">
+            <label>Allowed Song Type / Rules</label>
+            <input type="text" name="allowed_song_type" class="form-control"
+                   value="{{ programme.allowed_song_type }}" required>
+        </div>
+
+        <div class="mb-3">
+            <label>Time Limit (minutes)</label>
+            <input type="number" name="time_limit" class="form-control"
+                   value="{{ programme.time_limit }}" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary">
+            Update Programme
+        </button>
+
+        <a href="{% url 'view_programmes' %}" class="btn btn-secondary ms-2">
+            Cancel
+        </a>
+
+    </form>
+</div>
+
+{% endblock %}

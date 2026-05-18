@@ -1,0 +1,230 @@
+<!DOCTYPE HTML>
+{% load static %}
+<!--
+	Broadcast by TEMPLATED
+	templated.co @templatedco
+	Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
+--><html>
+	<head>
+<title>Cloud Campus - College Event Management System</title>
+		<meta charset="utf-8">
+		<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="{%static 'Broadcast-1.0.0/assets/css/main.css'%}">
+    <style>
+        /* Card container */
+        .event-card {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 420px;
+            padding: 15px;
+            background: #1a1a1a;
+            color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+
+        /* Event image */
+        .event-image img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        /* Event content */
+        .event-content {
+            flex-grow: 1;
+            margin-top: 15px;
+        }
+
+        .event-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .event-details p {
+            margin: 5px 0;
+            font-size: 14px;
+        }
+
+        /* Button at bottom */
+        .event-btn {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .event-btn .button {
+            display: inline-block;
+            text-decoration: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            background-color: #17a2b8;
+            color: white;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+
+        .event-btn .button:hover {
+            opacity: 0.85;
+        }
+
+        /* Flex container for all cards */
+        .flex.flex-3 {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .flex.flex-3 .event-card {
+            flex: 1 1 300px; /* Responsive card width */
+        }
+    </style>	</head>
+	<body>
+
+		<!-- Header -->
+			<header id="header">
+				<h1><a href="{% url 'home' %}">CLOUDCAMPUS</a> </a></h1>
+				<a href="#menu">Menu</a>
+			</header>
+
+		<!-- Nav -->
+			<nav id="menu">
+				<ul class="links">
+					<li><a href="{% url 'home' %}">Home</a></li>
+					<li><a href="{% url 'login_users' %}">Login</a></li>
+					<li><a href="{% url 'eventmaneger_register' %}">Register as an Event Manager</a></li>
+          <li><a href="{% url 'student_register'   %}">Register as a Student</a></li>
+				</ul>
+			</nav>
+
+			<!-- Banner -->
+			<!--
+				To use a video as your background, set data-video to the name of your video without
+				its extension (eg. images/banner). Your video must be available in both .mp4 and .webm
+				formats to work correctly.
+			-->
+				<section id="banner" data-video="images/banner">
+					<div class="inner">
+						<header>
+							<h1>Cloud Campus</h1>
+							<p>A Smart College Event Management Platform where students can 
+                explore upcoming events<br>
+							 apply for participation, and stay updated 
+                with all campus programs easily.</p>
+						</header>
+						<a href="{% url 'login_users' %}" class="button big alt scrolly">
+            Get Started
+        </a>
+					</div>
+
+				</section>
+
+		<!-- Main -->
+<div id="main">
+    <section class="wrapper style2">
+        <div class="inner">
+            <header class="align-center">
+                <h2>Upcoming Campus Events</h2>
+                <p>Discover and participate in exciting college programs</p>
+            </header>
+
+            <div class="flex flex-3">
+                {% for event in e %}
+                <div class="event-card">
+
+                    <div class="event-image">
+                        {% if event.poster %}
+                            <img src="{{ event.poster.url }}" alt="{{ event.title }}">
+                        {% else %}
+                            <img src="{% static 'Broadcast-1.0.0/images/pic01.jpg' %}" alt="No Poster">
+                        {% endif %}
+                    </div>
+
+                    <div class="event-content">
+                        <h4 class="event-title">{{ event.title }}</h4>
+                        <div class="event-details">
+                            <p><strong>Date:</strong> {{ event.date }}</p>
+                            <p><strong>Time:</strong> {{ event.time }}</p>
+                            <p><strong>Venue:</strong> {{ event.venue }}</p>
+                        </div>
+                    </div>
+
+                    <div class="event-btn">
+                        <a href="{% url 'login_users' %}" class="button">View Details</a>
+                    </div>
+
+                </div>
+                {% empty %}
+                    <p style="text-align:center; font-size:18px;">
+                        No upcoming events available.
+                    </p>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+</div>
+		<!-- Footer -->
+<footer id="footer">
+    <div class="inner">
+        <div class="flex flex-3">
+
+            <!-- About -->
+            <div class="col">
+                <h3>About Cloud Campus</h3>
+                <p>
+                    Cloud Campus is a smart college event management system 
+                    that helps students explore events and allows event managers 
+                    to efficiently manage campus programs and notifications.
+                </p>
+            </div>
+
+            <!-- Student Links -->
+            <div class="col">
+                <h3>For Students</h3>
+                <ul class="alt">
+                    <li><a href="{% url 'home' %}">View Upcoming Events</a></li>
+                    <li><a href="{% url 'login_users' %}">Student Login</a></li>
+                    <li><a href="#">My Applications</a></li>
+                    <li><a href="#">Event Guidelines</a></li>
+                </ul>
+            </div>
+
+            <!-- Event Manager Links -->
+            <div class="col">
+                <h3>For Event Managers</h3>
+                <ul class="alt">
+                    <li><a href="{% url 'login_users' %}">Manager Login</a></li>
+                    <li><a href="#">Create Event</a></li>
+                    <li><a href="#">Manage Applications</a></li>
+                    <li><a href="#">Send Notifications</a></li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="copyright">
+        <p>
+            © {% now "Y" %} Cloud Campus | College Event Management System  
+            <br>
+            Designed & Developed for Campus Digitalization
+        </p>
+    </div>
+</footer>
+		<div class="copyright">
+			Made with: <a href="https://templated.live/">Templated.co</a> Distributed by <a href="https://themewagon.com" target="_blank">ThemeWagon</a>
+		</div>
+
+		<!-- Scripts -->
+			<script src="{%static 'Broadcast-1.0.0/assets/js/jquery.min.js'%}"></script>
+			<script src="{%static 'Broadcast-1.0.0/assets/js/jquery.scrolly.min.js'%}"></script>
+			<script src="{%static 'Broadcast-1.0.0/assets/js/skel.min.js'%}"></script>
+			<script src="{%static 'Broadcast-1.0.0/assets/js/util.js'%}"></script>
+			<script src="{%static 'Broadcast-1.0.0/assets/js/main.js'%}"></script>
+
+	</body>
+</html>

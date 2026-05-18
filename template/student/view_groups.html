@@ -1,0 +1,116 @@
+{% extends 'student/base.html' %}
+{% block content %}
+
+<style>
+.page-header {
+    margin-bottom: 25px;
+}
+
+.page-header h4 {
+    font-weight: 600;
+}
+
+.page-header p {
+    color: #6c757d;
+    margin-bottom: 0;
+}
+
+.group-wrapper {
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 6px 25px rgba(0,0,0,0.06);
+    overflow: hidden;
+}
+
+.group-item {
+    padding: 15px 20px;
+    transition: all 0.25s ease;
+    border-bottom: 1px solid #f1f1f1;
+}
+
+.group-item:last-child {
+    border-bottom: none;
+}
+
+.group-item:hover {
+    background-color: #f8f9fa;
+    transform: translateX(6px);
+}
+
+.group-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #343a40, #495057);
+    color: #fff;
+    font-weight: 600;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.group-name {
+    font-weight: 500;
+    font-size: 15px;
+    text-decoration: none;
+    color: #212529;
+}
+
+.group-name:hover {
+    color: #000;
+}
+
+.empty-state {
+    padding: 40px 20px;
+    text-align: center;
+    color: #6c757d;
+}
+</style>
+
+<div class="container pt-5 mt-4">
+
+    <!-- Page Header -->
+<!-- Page Header -->
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h4>Your Groups</h4>
+        <p>Manage and access your discussion groups</p>
+    </div>
+    <a href="{% url 'studenthome' %}" class="btn btn-secondary">
+        ← Back to Home
+    </a>
+</div>
+    <!-- Group List -->
+    <div class="group-wrapper">
+
+        {% for g in groups %}
+        <div class="group-item d-flex align-items-center">
+
+            <div class="group-icon me-3">
+                {{ g.name|slice:":1"|upper }}
+            </div>
+
+            <div class="flex-grow-1">
+                <a href="{% url 'group_chat' g.id %}" class="group-name">
+                    {{ g.name }}
+                </a>
+            </div>
+
+            <div>
+                <i class="bi bi-chevron-right text-muted"></i>
+            </div>
+
+        </div>
+        {% empty %}
+        <div class="empty-state">
+            <h6>No Groups Yet</h6>
+            <p>You haven’t joined or created any groups.</p>
+        </div>
+        {% endfor %}
+
+    </div>
+
+</div>
+
+{% endblock %}

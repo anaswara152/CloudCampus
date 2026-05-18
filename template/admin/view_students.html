@@ -1,0 +1,218 @@
+{% extends 'admin/base.html' %}
+{% block content %}
+<style>
+
+/* Transparent Cards */
+.card {
+    background: rgba(255,255,255,0.05) !important;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+/* Transparent Table */
+.table,
+.table thead,
+.table tbody,
+.table tr,
+.table th,
+.table td {
+    background: transparent !important;
+    color: white;
+}
+
+/* Column lines */
+.table th,
+.table td {
+    border: 1px solid rgba(255,255,255,0.2);
+}
+
+/* Header */
+.table-dark {
+    background: rgba(0,0,0,0.4) !important;
+}
+
+/* Hover Effect */
+.table-hover tbody tr:hover {
+    background: rgba(255,255,255,0.08) !important;
+}
+
+/* Status badges */
+.badge {
+    font-size: 0.75rem;
+}
+
+/* Action buttons */
+.btn-success {
+    background: #00c853;
+    border: none;
+}
+
+.btn-success:hover {
+    background: #00a844;
+}
+
+.btn-danger {
+    background: #ff4d6d;
+    border: none;
+}
+
+.btn-danger:hover {
+    background: #e03150;
+}
+
+.btn-outline-secondary {
+    border: 1px solid rgba(255,255,255,0.4);
+    color: white;
+}
+
+.btn-outline-secondary:hover {
+    background: rgba(255,255,255,0.2);
+}
+
+</style>
+<div class="container mt-4">
+
+    <!-- Page Title -->
+    <div class="text-center mb-4">
+        <h3 class="fw-bold">All Students</h3>
+        <p class="text-muted">Manage registered students</p>
+    </div>
+
+    <!-- Department Filter -->
+    <div class="card shadow-sm border-0 mb-4">
+        <div class="card-body">
+
+            <form method="get" class="row align-items-center">
+
+                <div class="col-md-4">
+                    <label class="form-label fw-semibold">
+                        Select Department
+                    </label>
+                    <select name="department" 
+                            class="form-select"
+                            onchange="this.form.submit()">
+
+                        <option value="">-- All Departments --</option>
+
+                        {% for dept in departments %}
+                        <option value="{{ dept }}"
+                            {% if dept == selected_department %}selected{% endif %}>
+                            {{ dept }}
+                        </option>
+                        {% endfor %}
+
+                    </select>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+    <!-- Students Table -->
+<div class="card shadow-sm border-0">
+    <div class="card-body table-responsive">
+
+        <table class="table table-hover align-middle text-center">
+
+            <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Username</th>
+                    <th>Department</th>
+                    <th>Semester</th>
+                    <th>Phone</th>
+                    <th>ID Proof</th>
+                    <th>Status</th>
+                    <th style="width:120px;">Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for student in studentsdata %}
+                <tr>
+
+                    <td>{{ student.id }}</td>
+
+                    <td class="text-start">
+                        {{ student.user.first_name }}
+                        {{ student.user.last_name }}
+                    </td>
+
+                    <td>{{ student.user.username }}</td>
+                    <td>{{ student.department }}</td>
+                    <td>{{ student.semester }}</td>
+                    <td>{{ student.phone }}</td>
+
+                    <!-- ID Proof Button -->
+                    <td>
+                        <a href="{{ student.student_id.url }}" 
+                           target="_blank"
+                           class="btn btn-sm btn-outline-secondary">
+                           View
+                        </a>
+                    </td>
+
+                    <!-- Status Badge -->
+                    <td>
+                        {% if student.status == 'pending' %}
+                            <span class="badge bg-warning text-dark px-3 py-2">
+                                Pending
+                            </span>
+                        {% elif student.status == 'removed' %}
+                            <span class="badge bg-danger px-3 py-2">
+                                Removed
+                            </span>
+                        {% else %}
+                        <span class="badge bg-success px-3 py-2">
+                            Approved
+                        </span>    
+                        {% endif %}
+                    </td>
+
+                    <!-- Action Buttons -->
+                    <td>
+                        <div class="d-flex justify-content-center gap-2">
+
+                            {% if student.status == 'pending' %}
+                                <a href="{% url 'approve_students' student.id %}" 
+                                   class="btn btn-sm btn-success">
+                                   ✓
+                                </a>
+                            {% endif %}
+                            {% if student.status == 'approved' %}
+                            <a href="{% url 'remove_students' student.id %}"
+                               onclick="return confirm('Remove student?')"
+                               class="btn btn-sm btn-danger">
+                               ✕
+                            </a>
+                            {% else %}
+                            <span>No Action</span>
+                            {% endif %}
+
+                        </div>
+                    </td>
+
+                </tr>
+
+                {% empty %}
+                <tr>
+                    <td colspan="9" class="text-muted text-center">
+                        No students found.
+                    </td>
+                </tr>
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+</div>
+
+
+</div>
+
+{% endblock %}

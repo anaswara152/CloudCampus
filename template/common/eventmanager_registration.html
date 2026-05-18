@@ -1,0 +1,96 @@
+{% extends 'common/base.html' %}
+{% block content %}
+
+<section class="wrapper">
+    <div class="inner">
+
+        <header class="align-center">
+            <h2>Event Manager Registration</h2>
+            <p>Create your Cloud Campus manager account</p>
+        </header>
+
+        <div style="max-width:600px; margin:0 auto;">
+
+            {% if messages %}
+                {% for msg in messages %}
+                    <div style="background:#e6ffe6; padding:10px; margin-bottom:15px; border-radius:5px;">
+                        {{ msg }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <label>First Name</label>
+                <input type="text" name="first_name" required>
+
+                <label>Last Name</label>
+                <input type="text" name="last_name" required>
+
+                <label>Username</label>
+                <input type="text" name="username" required>
+
+                <label>Email</label>
+                <input type="email" name="email" required>
+
+                <label>Password</label>
+                <input type="password" name="password" required>
+
+                <label>Registration No</label>
+                <input type="text" name="registration_no" required>
+
+                <label>Department</label>
+                <select name="department" required>
+                    <option value="">-- Select Department --</option>
+                    <option>B.Com</option>
+                    <option>BBA</option>
+                    <option>English</option>
+                    <option>Malayalam</option>
+                    <option>Hindi</option>
+                    <option>Chemistry</option>
+                    <option>Zoology</option>
+                    <option>Botany</option>
+                    <option>Microbiology</option>
+                    <option>Physics</option>
+                    <option>Mathematics</option>
+                    <option>Computer Science</option>
+                </select>
+
+                <label>Semester</label>
+                <select name="semester" required>
+                    <option value="">-- Select Semester --</option>
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                    <option>6</option>
+                </select>
+
+                <label>Phone</label>
+                <input type="text"
+                       name="phone"
+                       pattern="[0-9]{10}"
+                       maxlength="10"
+                       minlength="10"
+                       placeholder="10 digit phone number"
+                       required>
+
+                <label>Upload Student ID</label>
+                <input type="file" name="student_id">
+
+                <br><br>
+
+                <button type="submit" class="button special fit">
+                    Register
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}

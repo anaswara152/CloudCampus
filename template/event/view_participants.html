@@ -1,0 +1,68 @@
+{% extends 'event/base.html' %}
+{% block content %}
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .event { border: 1px solid #ccc; padding: 15px; margin-bottom: 20px; border-radius: 8px; }
+        .programme { border: 1px solid #aaa; padding: 10px; margin: 10px 0; border-radius: 5px; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { border: 1px solid #888; padding: 8px; text-align: left; }
+        th { background-color: #302c2c; }
+    </style>
+
+
+<h2>Event Participants</h2>
+
+{% if events %}
+    {% for event in events %}
+        <div class="event">
+            <h3>{{ event.title }}</h3>
+            <p>{{ event.description }}</p>
+            <p>Date: {{ event.date }} | Time: {{ event.time }} | Venue: {{ event.venue }}</p>
+
+            {% for programme in event.programme_set.all %}
+                <div class="programme">
+                    <h4>Programme: {{ programme.name }} ({{ programme.programme_type }})</h4>
+                    <p>Members Allowed: {{ programme.min_members }} - {{ programme.max_members }}</p>
+                    <p>Song Rules: {{ programme.allowed_song_type }}</p>
+                    <p>Time Limit: {{ programme.time_limit }} mins</p>
+
+                    {% if programme.programmeparticipation_set.all %}
+                        <table>
+                            <tr>
+                                <th>Student</th>
+                                <th>Team Name</th>
+                                <th>Song Name</th>
+                                <th>Members Count</th>
+                                <th>Status</th>
+                            </tr>
+                            {% for p in programme.programmeparticipation_set.all %}
+                                <tr>
+                                    <td>{{ p.student.user.username }}</td>
+                                    <td>{{ p.team_name }}</td>
+                                    <td>{{ p.song_name }}</td>
+                                    <td>{{ p.members_count }}</td>
+                                    
+                                    <td>
+                                        {% if p.status == 'Requested' %}
+                                        <a href="{% url 'accept_participants' p.id %}" >Accept</a>
+                                        || <a href="{% url 'reject_participants' p.id %}" onclick="return confirm('Remove {{p.student.user.username}}')">Remove</a>
+                                        {% else %}
+                                        {{ p.status }}
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </table>
+                    {% else %}
+                        <p>No participants yet for this programme.</p>
+                    {% endif %}
+
+                </div>
+            {% endfor %}
+
+        </div>
+    {% endfor %}
+{% else %}
+    <p>No events found.</p>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,101 @@
+{% extends 'admin/base.html' %}
+{% block content %}
+
+<style>
+
+/* Glass Card */
+.programme-card {
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+/* Transparent Table */
+.table,
+.table th,
+.table td {
+    background: transparent !important;
+    color: white;
+    border: 1px solid rgba(255,255,255,0.15);
+}
+
+/* Hover Effect */
+.table-hover tbody tr:hover {
+    background: rgba(255,255,255,0.08);
+}
+
+/* Glass Button */
+.btn-programme {
+    background: rgba(255,255,255,0.12);
+    color: white;
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 6px;
+    padding: 5px 14px;
+}
+
+.btn-programme:hover {
+    background: rgba(255,255,255,0.25);
+    color: white;
+}
+
+</style>
+<div class="container mt-4">
+
+    <!-- Page Title -->
+    <div class="text-center mb-4">
+        <h3 class="fw-bold text-light">
+            Event : {{ event.title }}
+        </h3>
+    </div>
+
+    <div class="card programme-card border-0 shadow-sm">
+        <div class="card-body table-responsive">
+
+            <table class="table table-hover align-middle text-center">
+
+                <thead>
+                    <tr>
+                        <th class="text-start">Programme</th>
+                        <th>Type</th>
+                        <th style="width:180px;">Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    {% for p in programmes %}
+                    <tr>
+
+                        <td class="text-start fw-semibold">
+                            {{ p.name }}
+                        </td>
+
+                        <td>{{ p.programme_type }}</td>
+
+                        <td>
+                            <div class="d-flex justify-content-center">
+                                <a href="{% url 'view_event_participants_admin' p.id %}"
+                                   class="btn btn-programme btn-sm">
+                                    View Participants
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4" class="text-light text-center">
+                            No programmes available.
+                        </td>
+                    </tr>
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

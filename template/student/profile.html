@@ -1,0 +1,183 @@
+{% extends 'student/base.html' %}
+{% block content %}
+
+<style>
+/* Page Header */
+.page-header h4 {
+    font-weight: 600;
+}
+
+.page-header p {
+    color: #6c757d;
+    margin-bottom: 0;
+}
+
+/* Card */
+.profile-card {
+    border-radius: 16px;
+    border: none;
+    box-shadow: 0 10px 35px rgba(0,0,0,0.06);
+}
+
+/* Avatar */
+.profile-avatar {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #343a40, #495057);
+    color: #fff;
+    font-size: 30px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+
+/* Info rows */
+.info-row {
+    padding: 12px 0;
+    border-bottom: 1px solid #f1f1f1;
+}
+
+.info-row:last-child {
+    border-bottom: none;
+}
+
+.info-label {
+    font-weight: 600;
+    color: #6c757d;
+    font-size: 14px;
+}
+
+.info-value {
+    font-size: 15px;
+}
+
+/* Buttons */
+.btn {
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-weight: 500;
+}
+</style>
+
+<div class="container pt-5 mt-4">
+
+    <!-- Page Header -->
+    <div class="page-header mb-4">
+        <h4>My Profile</h4>
+        <p>View your personal and academic details</p>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-7">
+
+            <div class="card profile-card">
+                <div class="card-body p-4">
+
+                    <!-- Top Profile Section -->
+                    <div class="text-center mb-4">
+                        <div class="profile-avatar mx-auto">
+                            {{ student.user.username|slice:":1"|upper }}
+                        </div>
+                        <h5 class="mb-0 text-dark">{{ student.user.first_name }} {{student.user.last_name}}</h5>
+                        <small class="text-muted">
+                            {{ student.user.email }}
+                        </small>
+                    </div>
+
+                    <hr>
+
+                    <!-- Profile Information -->
+                    <div class="info-row row">
+                        <div class="col-sm-4 info-label">Department</div>
+                        <div class="col-sm-8 info-value">
+                            {{ student.department }}
+                        </div>
+                    </div>
+
+                    <div class="info-row row">
+                        <div class="col-sm-4 info-label">Semester</div>
+                        <div class="col-sm-8 info-value">
+                            {{ student.semester }}
+                        </div>
+                    </div>
+
+                    <div class="info-row row">
+                        <div class="col-sm-4 info-label">Phone</div>
+                        <div class="col-sm-8 info-value">
+                            {{ student.phone }}
+                        </div>
+                    </div>
+
+                    <div class="info-row row">
+                        <div class="col-sm-4 info-label">Address</div>
+                        <div class="col-sm-8 info-value">
+                            {{ student.address }}
+                        </div>
+                    </div>
+
+                    <div class="info-row row">
+                        <div class="col-sm-4 info-label">Registration No</div>
+                        <div class="col-sm-8 info-value">
+                            {{ student.registration_no }}
+                        </div>
+                    </div>
+
+                    <div class="info-row row">
+                        <div class="col-sm-4 info-label">Status</div>
+                        <div class="col-sm-8">
+                            {% if student.status == "Approved" %}
+                                <span class="badge bg-success">
+                                    {{ student.status }}
+                                </span>
+                            {% elif student.status == "Pending" %}
+                                <span class="badge bg-warning text-dark">
+                                    {{ student.status }}
+                                </span>
+                            {% else %}
+                                <span class="badge bg-secondary">
+                                    {{ student.status }}
+                                </span>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="info-row row">
+                        <div class="col-sm-4 info-label">ID Proof</div>
+                        <div class="col-sm-8">
+                            {% if student.student_id %}
+                                <a href="{{ student.student_id.url }}"
+                                   target="_blank"
+                                   class="btn btn-sm btn-outline-dark">
+                                    View Uploaded ID
+                                </a>
+                            {% else %}
+                                <span class="text-muted">
+                                    Not Uploaded
+                                </span>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- Action Button -->
+                    <div class="text-end mt-4">
+    <a href="{% url 'edit_student_profile' %}"
+       class="btn btn-dark me-2">
+        Edit Profile
+    </a>
+    <a href="{% url 'studenthome' %}"
+       class="btn btn-secondary">
+        ← Back to Home
+    </a>
+</div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

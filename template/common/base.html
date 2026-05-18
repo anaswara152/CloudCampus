@@ -1,0 +1,55 @@
+{% load static %}
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Cloud Campus - Event Management System</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="{% static 'Broadcast-1.0.0/assets/css/main.css' %}">
+</head>
+
+<body>
+
+<!-- ================= HEADER ================= -->
+<header id="header">
+    <h1>
+        <a href="{% url 'home' %}">Cloud Campus</a>
+    </h1>
+    <a href="#menu">Menu</a>
+</header>
+
+<!-- ================= NAVIGATION ================= -->
+<nav id="menu">
+    <ul class="links">
+        <li><a href="{% url 'home' %}">Home</a></li>
+        <li><a href="{% url 'login_users' %}">Login</a></li>
+        <li><a href="{% url 'eventmaneger_register' %}">Register as an Event Manager</a></li>
+          <li><a href="{% url 'student_register'   %}">Register as a Student</a></li>
+
+    </ul>
+</nav>
+
+<!-- ================= BANNER BLOCK (Optional) ================= -->
+{% block banner %}
+{% endblock %}
+
+<!-- ================= MAIN CONTENT BLOCK ================= -->
+<div id="main">
+    {% block content %}
+    {% endblock %}
+</div>
+
+<!-- ================= FOOTER ================= -->
+<footer id="footer" style="text-align:center; padding:10px 0; background:#222; color:white;">
+    <p style="margin:0; font-size:14px;">© {% now "Y" %} Cloud Campus | All Rights Reserved</p>
+</footer>
+<!-- ================= SCRIPTS ================= -->
+<script src="{% static 'Broadcast-1.0.0/assets/js/jquery.min.js' %}"></script>
+<script src="{% static 'Broadcast-1.0.0/assets/js/jquery.scrolly.min.js' %}"></script>
+<script src="{% static 'Broadcast-1.0.0/assets/js/skel.min.js' %}"></script>
+<script src="{% static 'Broadcast-1.0.0/assets/js/util.js' %}"></script>
+<script src="{% static 'Broadcast-1.0.0/assets/js/main.js' %}"></script>
+
+</body>
+</html>

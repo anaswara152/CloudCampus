@@ -1,0 +1,72 @@
+{% extends 'event/base.html' %}
+{% block content %}
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .programme {
+            border: 1px solid #ccc;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+        }
+        h3 {
+            margin: 0 0 10px 0;
+        }
+        p {
+            margin: 5px 0;
+        }
+        .actions button {
+            margin-right: 5px;
+            padding: 6px 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            color: white;
+        }
+        
+        .delete-btn:hover {
+            background-color: #c82333;
+        }
+        .disabled-btn {
+            background-color: #6c757d;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+    </style>
+</head>
+<body>
+
+<h2>All Programmes</h2>
+
+{% if p %}
+    {% for programme in p %}
+        <div class="programme">
+            <h3>{{ programme.event.title }} → {{ programme.name }}</h3>
+            <p><strong>Type:</strong> {{ programme.programme_type }}</p>
+            <p><strong>Members Allowed:</strong> {{ programme.min_members }} - {{ programme.max_members }}</p>
+            <p><strong>Song Rules:</strong> {{ programme.allowed_song_type }}</p>
+            <p><strong>Time Limit:</strong> {{ programme.time_limit }} mins</p>
+
+            <div class="actions">
+                {% if programme.event.event_manager.user == request.user %}
+                    <a href="{% url 'edit_programme' programme.id  %}">
+                        <button class="edit-btn">Edit</button>
+                    </a>
+                    <a href="{% url 'delete_programme' programme.id %}">
+                        <button class="delete-btn" onclick="return confirm('Are you sure?')">Delete</button>
+                    </a>
+                {% else %}
+                    <button class="disabled-btn" onclick="alert('You cannot edit this programme!')">Edit</button>
+                    <button class="disabled-btn" onclick="alert('You cannot delete this programme!')">Delete</button>
+                {% endif %}
+            </div>
+        </div>
+    {% endfor %}
+{% else %}
+    <p>No programmes available.</p>
+{% endif %}
+
+</body>
+{% endblock %}

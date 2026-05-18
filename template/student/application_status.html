@@ -1,0 +1,116 @@
+{% extends 'student/base.html' %}
+{% block content %}
+
+<style>
+/* Page Header */
+.page-header h4 {
+    font-weight: 600;
+}
+
+.page-header p {
+    color: #6c757d;
+    margin-bottom: 0;
+}
+
+/* Card Wrapper */
+.event-card {
+    border-radius: 16px;
+    border: none;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+/* Table Styling */
+.table thead {
+    background-color: #343a40;
+    color: #fff;
+}
+
+.table tbody tr {
+    transition: 0.2s ease;
+}
+
+.table tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+/* Button */
+.btn-primary {
+    border-radius: 8px;
+    padding: 5px 12px;
+    font-weight: 500;
+}
+</style>
+
+<div class="container pt-5 mt-4">
+
+    <!-- Page Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h4>Upcoming Events</h4>
+            <p>Explore and participate in campus programmes</p>
+        </div>
+        <a href="{% url 'studenthome' %}" class="btn btn-secondary">
+            ← Back to Home
+        </a>
+    </div>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} shadow-sm">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <div class="card event-card">
+        <div class="card-body">
+
+            <div class="table-responsive">
+                <table class="table align-middle mb-0">
+
+                    <thead>
+                        <tr>
+                            <th>SI NO</th>
+                            <th>Event Name</th>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Venue</th>
+                            <th class="text-center">Action</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for e in event %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td class="fw-semibold">
+                                {{ e.title }}
+                            </td>
+                            <td>{{ e.date }}</td>
+                            <td>{{ e.time }}</td>
+                            <td>{{ e.venue }}</td>
+                            <td class="text-center">
+                                <a href="{% url 'student_view_programmes' e.id %}"
+                                   class="btn btn-primary btn-sm">
+                                    View Programmes
+                                </a>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="6" class="text-center py-4 text-muted">
+                                No events available at the moment.
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+
+                </table>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

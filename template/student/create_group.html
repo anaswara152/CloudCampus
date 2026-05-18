@@ -1,0 +1,215 @@
+{% extends 'student/base.html' %}
+{% block content %}
+
+<style>
+/* Page Header */
+.page-header h4 {
+    font-weight: 600;
+}
+
+.page-header p {
+    color: #6c757d;
+    margin-bottom: 0;
+}
+
+/* Card */
+.create-card {
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.06);
+    border: none;
+}
+
+/* Input */
+.form-control {
+    border-radius: 8px;
+    padding: 10px 14px;
+}
+
+.form-control:focus {
+    box-shadow: 0 0 0 0.15rem rgba(0,0,0,0.1);
+    border-color: #343a40;
+}
+
+/* Member List */
+.member-box {
+    max-height: 250px;
+    overflow-y: auto;
+    background: #f8f9fa;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.member-item input[type="checkbox"] {
+    display: none;
+}
+.member-item input[type="checkbox"]:checked + .member-content {
+    background-color: #d1e7dd;
+    border: 1px solid #198754;
+}
+.member-content {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 8px;
+    border-radius: 10px;
+    transition: 0.25s ease;
+}
+
+.member-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #343a40, #495057);
+    color: #fff;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 12px;
+}
+.member-name {
+    flex-grow: 1;
+}
+.check-icon {
+    font-size: 18px;
+    color: #198754;
+    display: none;
+}
+.member-item input[type="checkbox"]:checked 
++ .member-content .check-icon {
+    display: block;
+}
+.member-item:hover {
+    background-color: #e9ecef;
+}
+
+/* Avatar circle */
+.member-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #343a40, #495057);
+    color: #fff;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+    font-size: 14px;
+}
+
+/* Checkbox fix */
+.form-check-input {
+    width: 18px !important;
+    height: 18px !important;
+    margin-left: auto;
+    cursor: pointer;
+}
+
+/* Button */
+.btn-dark {
+    border-radius: 8px;
+    padding: 10px;
+    font-weight: 500;
+}
+</style>
+
+<div class="container pt-5 mt-4">
+
+    <!-- Page Heading -->
+    <div class="page-header mb-4">
+        <h4>Create New Group</h4>
+        <p>Select members and start collaborating</p>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+
+            <div class="card create-card">
+                <div class="card-body">
+
+                    <!-- Django Messages -->
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-info">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+
+                    <form method="post">
+                        {% csrf_token %}
+
+                        <!-- Group Name -->
+                        <div class="mb-4">
+                            <label class="form-label fw-semibold">
+                                Group Name
+                            </label>
+                            <input type="text" 
+                                   name="group_name" 
+                                   class="form-control"
+                                   placeholder="Enter group name"
+                                   required>
+                        </div>
+
+                        <!-- Members -->
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold mb-2">
+                                Select Members
+                            </label>
+
+<div class="member-box">
+
+{% for s in students %}
+<label class="member-item">
+
+    <input type="checkbox"
+           name="members"
+           value="{{ s.id }}">
+
+    <div class="member-content">
+
+        <div class="member-avatar">
+            {{ s.user.username|slice:":1"|upper }}
+        </div>
+
+        <div class="member-name">
+            {{ s.user.username }}
+        </div>
+
+        <div class="check-icon">
+            ✔
+        </div>
+
+    </div>
+
+</label>
+{% empty %}
+<p class="text-muted text-center mb-0">
+    No students available
+</p>
+{% endfor %}
+
+</div>
+                        </div>
+
+                        <!-- Button -->
+<div class="d-flex justify-content-between mt-4">
+    <a href="{% url 'studenthome' %}" class="btn btn-secondary">
+        ← Back to Home
+    </a>
+    <button type="submit" class="btn btn-dark">
+        Create Group
+    </button>
+</div>
+
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

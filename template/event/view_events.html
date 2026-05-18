@@ -1,0 +1,145 @@
+{% extends 'event/base.html' %}
+{% block content %}
+
+<style>
+    /* Transparent Background */
+    .table,
+    .table thead,
+    .table tbody,
+    .table tr,
+    .table th,
+    .table td {
+        background: transparent !important;
+        color: white;
+        border: 1px solid rgba(255,255,255,0.2) !important; /* Column lines */
+    }
+
+    .card {
+        background: transparent !important;
+    }
+
+    .table th {
+        font-weight: 600;
+        text-align: center;
+    }
+
+    .table td {
+        vertical-align: middle;
+        text-align: center;
+    }
+
+    /* Button styling */
+    .action-btn {
+        padding: 5px 10px;
+        font-size: 13px;
+        border-radius: 5px;
+        text-decoration: none;
+        margin: 2px;
+        display: inline-block;
+    }
+
+
+
+
+    .action-btn:hover {
+        opacity: 0.85;
+        color: white;
+    }
+</style>
+
+<div class="container my-5">
+
+    <div class="page-header mb-4 text-center">
+        <h4>Manage Events</h4>
+        <p>Update, Remove, or Add programmes</p>
+    </div>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} shadow-sm">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <!-- Top Buttons -->
+    <div class="d-flex justify-content-between mb-3">
+        <a href="{% url 'manager_home' %}" class="btn btn-secondary">
+            ← Back to Home
+        </a>
+        <a href="{% url 'create_event' %}" class="btn btn-primary">
+            + Add Event
+        </a>
+    </div>
+
+    <!-- Event Table -->
+    <div class="card border-0 shadow-sm my-4" style="padding:25px;">
+        <div class="table-responsive">
+            <table class="table align-middle mb-0">
+                <thead>
+                    <tr>
+                        <th>SI NO</th>
+                        <th>Event Title</th>
+                        <th>Description</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Venue</th>
+                        <th>Poster</th>
+                        <th>Actions</th>
+                        <th>Add Programme</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for event in edata %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ event.title }}</td>
+                        <td>{{ event.description|truncatewords:10 }}</td>
+                        <td>{{ event.date }}</td>
+                        <td>{{ event.time }}</td>
+                        <td>{{ event.venue }}</td>
+                        <td>
+                            {% if event.poster %}
+                                <img src="{{ event.poster.url }}" width="70" class="rounded">
+                            {% else %}
+                                <span class="text-muted">No Poster</span>
+                            {% endif %}
+                        </td>
+
+                        <!-- Edit/Delete Buttons -->
+                        <td>
+                            {% if event.event_manager.user == request.user %}
+                            <div style="display:flex; gap:8px; justify-content:center;">
+                                <a href="{% url 'edit_events' event.id %}" class="action-btn edit-btn">Edit</a>
+                                <a href="{% url 'delete_events' event.id %}" onclick="return confirm('Delete event?')" class="action-btn delete-btn">Delete</a>
+                            </div>
+                            {% endif %}
+                        </td>
+
+                        <!-- Add Programme Button -->
+                        <td>
+                            {% if event.event_manager.user == request.user %}
+                                <a href="{% url 'create_programme' event.id %}" class="action-btn programme-btn">+ Add</a>
+                            {% else %}
+                                <button class="action-btn programme-btn" disabled>+ Add</button>
+                            {% endif %}
+                        </td>
+
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="9" class="text-danger">
+                            No events available
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

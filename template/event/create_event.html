@@ -1,0 +1,51 @@
+{% extends 'event/base.html' %}
+{% block content %}
+
+<div class="container mt-5">
+
+    <h2>Create Campus Event</h2>
+
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class="mb-3">
+            <label>Event Title</label>
+            <input type="text" name="title" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+            <label>Description</label>
+            <textarea name="description" class="form-control" required></textarea>
+        </div>
+
+        <div class="mb-3">
+            <label for="">Image</label>
+            <input type="file" name="poster" class="form-control">
+        </div>
+
+        <div class="mb-3">
+            <label>Date</label>
+            <input type="date" name="date" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+            <label>Time</label>
+            <input type="time" name="time" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+            <label>Venue</label>
+            <input type="text" name="venue" class="form-control" required>
+        </div>
+
+        <!-- Buttons -->
+        <div class="d-flex gap-2">
+            <button type="submit" class="btn btn-primary">Create Event</button>
+            <a href="{% url 'manager_home' %}" class="btn btn-secondary">← Back to Home</a>
+        </div>
+
+    </form>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,138 @@
+{% extends 'student/base.html' %}
+{% block content %}
+
+<style>
+/* Page Header */
+.page-header h4 {
+    font-weight: 600;
+}
+
+.page-header p {
+    color: #6c757d;
+    margin-bottom: 0;
+}
+
+/* Card */
+.details-card {
+    border-radius: 16px;
+    border: none;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+}
+
+/* Info rows */
+.info-row {
+    padding: 14px 0;
+    border-bottom: 1px solid #f1f1f1;
+}
+
+.info-row:last-child {
+    border-bottom: none;
+}
+
+.info-label {
+    font-weight: 600;
+    color: #6c757d;
+    font-size: 14px;
+}
+
+.info-value {
+    font-size: 15px;
+}
+
+/* Button */
+.btn {
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-weight: 500;
+}
+</style>
+
+<div class="container pt-5 mt-4">
+
+    <!-- Page Header -->
+    <div class="page-header mb-4">
+        <h4>Application Details</h4>
+        <p>Review your submitted programme application</p>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-7">
+
+            <div class="card details-card">
+                <div class="card-body p-4">
+
+                    <div class="info-row row">
+                        <div class="col-sm-4 info-label">Event</div>
+                        <div class="col-sm-8 info-value">
+                            {{ app.programme.event.title }}
+                        </div>
+                    </div>
+
+                    <div class="info-row row">
+                        <div class="col-sm-4 info-label">Programme</div>
+                        <div class="col-sm-8 info-value">
+                            {{ app.programme.name }}
+                        </div>
+                    </div>
+
+                    <div class="info-row row">
+                        <div class="col-sm-4 info-label">Team Name</div>
+                        <div class="col-sm-8 info-value">
+                            {{ app.team_name }}
+                        </div>
+                    </div>
+
+                    <div class="info-row row">
+                        <div class="col-sm-4 info-label">Song</div>
+                        <div class="col-sm-8 info-value">
+                            {{ app.song_name }}
+                        </div>
+                    </div>
+
+                    <div class="info-row row">
+                        <div class="col-sm-4 info-label">Members</div>
+                        <div class="col-sm-8 info-value">
+                            {{ app.members_count }}
+                        </div>
+                    </div>
+
+                    <div class="info-row row">
+                        <div class="col-sm-4 info-label">Status</div>
+                        <div class="col-sm-8">
+                            {% if app.status == "Approved" %}
+                                <span class="badge bg-success">
+                                    {{ app.status }}
+                                </span>
+                            {% elif app.status == "Rejected" %}
+                                <span class="badge bg-danger">
+                                    {{ app.status }}
+                                </span>
+                            {% elif app.status == "Pending" %}
+                                <span class="badge bg-warning text-dark">
+                                    {{ app.status }}
+                                </span>
+                            {% else %}
+                                <span class="badge bg-secondary">
+                                    {{ app.status }}
+                                </span>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- Back Button -->
+                    <div class="text-end mt-4">
+                        <a href="javascript:history.back()"
+                           class="btn btn-outline-secondary">
+                            ← Back
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

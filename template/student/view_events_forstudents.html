@@ -1,0 +1,153 @@
+{% extends 'student/base.html' %}
+{% block content %}
+
+<style>
+/* Page Header */
+.page-header h4 {
+    font-weight: 600;
+}
+
+.page-header p {
+    color: #6c757d;
+    margin-bottom: 0;
+}
+
+/* Programme Card */
+.programme-card {
+    border-radius: 16px;
+    border: none;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    transition: 0.25s ease;
+}
+
+.programme-card:hover {
+    transform: translateY(-4px);
+}
+
+/* Section Title */
+.section-title {
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: #6c757d;
+    margin-bottom: 10px;
+}
+
+/* Form Controls */
+.form-control {
+    border-radius: 8px;
+    padding: 8px 12px;
+}
+
+.form-control:focus {
+    border-color: #343a40;
+    box-shadow: 0 0 0 0.15rem rgba(0,0,0,0.1);
+}
+
+/* Button */
+.btn-success {
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-weight: 500;
+}
+</style>
+
+<div class="container pt-5 mt-4">
+
+    <!-- Page Header -->
+    <div class="page-header mb-4">
+        <h4>Available Programmes</h4>
+        <p>Browse and register for upcoming events</p>
+    </div>
+
+    <!-- Django Messages -->
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} shadow-sm">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    {% if eventdata %}
+        <div class="row">
+
+            {% for programme in eventdata %}
+            <div class="col-md-6 mb-4">
+
+                <div class="card programme-card h-100">
+                    <div class="card-body">
+
+                        <h5 class="card-title">
+                            {{ programme.name }}
+                        </h5>
+
+                        <p class="text-muted mb-3">
+                            {{ programme.event.title }}
+                        </p>
+
+                        <div class="mb-3">
+                            <div><strong>Type:</strong> {{ programme.programme_type }}</div>
+                            <div><strong>Members:</strong> {{ programme.min_members }} - {{ programme.max_members }}</div>
+                            <div><strong>Song Rules:</strong> {{ programme.allowed_song_type }}</div>
+                            <div><strong>Time Limit:</strong> {{ programme.time_limit }} minutes</div>
+                        </div>
+
+                        <hr>
+
+                        <div class="section-title">Register Now</div>
+
+                        <form method="post" action="{% url 'join_event' programme.id %}">
+                            {% csrf_token %}
+
+                            <div class="mb-2">
+                                <input type="text"
+                                       name="team_name"
+                                       class="form-control"
+                                       placeholder="Team / Member Name"
+                                       required>
+                            </div>
+
+                            <div class="mb-2">
+                                <input type="text"
+                                       name="song_name"
+                                       class="form-control"
+                                       placeholder="Song Name"
+                                       required>
+                            </div>
+
+                            <div class="mb-3">
+                                <input type="number"
+                                       name="members_count"
+                                       class="form-control"
+                                       min="{{ programme.min_members }}"
+                                       max="{{ programme.max_members }}"
+                                       placeholder="Members Count"
+                                       required>
+                            </div>
+
+                            <div class="d-grid">
+                                <button type="submit"
+                                        class="btn btn-success">
+                                    Join Programme
+                                </button>
+                            </div>
+
+                        </form>
+
+                    </div>
+                </div>
+
+            </div>
+            {% endfor %}
+
+        </div>
+    {% else %}
+        <div class="alert alert-info">
+            No programmes available at the moment.
+        </div>
+    {% endif %}
+
+</div>
+
+{% endblock %}

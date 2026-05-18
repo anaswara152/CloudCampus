@@ -1,0 +1,53 @@
+{% extends 'event/base.html' %}
+{% block content %}
+
+<div class="container mt-5">
+    <h2>Create Programme</h2>
+    <h5 class="text-muted mb-4">For Event: {{ event.title }}</h5>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <div class="mb-3">
+            <label>Programme Name</label>
+            <input type="text" name="name" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+            <label>Programme Type</label>
+            <select name="programme_type" class="form-control" required>
+                <option value="">--Select--</option>
+                <option value="Solo">Solo</option>
+                <option value="Group">Group</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label>Minimum Members</label>
+            <input type="number" name="min_members" value="1" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+            <label>Maximum Members</label>
+            <input type="number" name="max_members" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+            <label>Allowed Song Type / Rules</label>
+            <textarea name="allowed_song_type" rows="3" class="form-control" required></textarea>
+        </div>
+
+        <div class="mb-3">
+            <label>Time Limit (minutes)</label>
+            <input type="number" name="time_limit" class="form-control" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Create Programme</button>
+        <a href="{% url 'view_events_for_manager' %}" class="btn btn-secondary ms-2">
+            Cancel
+        </a>
+
+    </form>
+</div>
+
+{% endblock %}
